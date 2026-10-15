@@ -1,0 +1,8 @@
+[
+ {"name":"Area membatik","description":"Ketersediaan dan kapasitas dikonfirmasi pengelola.","status":"review"},
+ {"name":"Area workshop","description":"Ketersediaan dan kapasitas dikonfirmasi pengelola.","status":"review"},
+ {"name":"Toilet","description":"Informasi fasilitas dikonfirmasi pengelola.","status":"review"},
+ {"name":"Mushola","description":"Informasi fasilitas dikonfirmasi pengelola.","status":"review"},
+ {"name":"Area parkir","description":"Kapasitas dan titik parkir dikonfirmasi pengelola.","status":"review"},
+ {"name":"Ruang tunggu","description":"Informasi fasilitas dikonfirmasi pengelola.","status":"review"}
+]

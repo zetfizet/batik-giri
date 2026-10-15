@@ -1,0 +1,27 @@
+﻿import type { Metadata } from 'next'
+import Link from 'next/link'
+import SectionTitle from '@/components/SectionTitle'
+import PlaceholderImage from '@/components/PlaceholderImage'
+import GalleryPreview from '@/components/GalleryPreview'
+import MotifCard from '@/components/MotifCard'
+import PackageCard from '@/components/PackageCard'
+import motifs from '@/data/motifs.json'
+import packages from '@/data/packages.json'
+import activities from '@/data/activities.json'
+import site from '@/data/site.json'
+
+export const metadata: Metadata = { title: 'Wisata Edukasi Batik di Gresik', description: 'Kenali motif Batik Giri dan rasakan pengalaman wisata edukasi membatik di kawasan Giri, Gresik.' }
+const visibleMotifs = motifs.filter(item => !item.optional).slice(0, 3)
+const wa = site.whatsapp ? `https://wa.me/${site.whatsapp}?text=${encodeURIComponent('Halo, saya ingin bertanya tentang wisata edukasi Batik Giri.')}` : '/kontak/'
+
+export default function HomePage() {
+  return <>
+    <section className="hero"><div className="wrap hero-grid"><div className="hero-copy"><span className="eyebrow">Wisata edukasi batik · Giri, Gresik</span><h1>Jejak Giri,<br /><em>terlukis</em> dalam<br />sehelai batik.</h1><p>Kenali cerita Batik Giri, temui proses di baliknya, dan rasakan pengalaman belajar membatik bersama pengrajin lokal.</p><div className="hero-actions"><Link className="btn" href="/paket/">Lihat Paket Wisata</Link><a className="btn btn-wa" href={wa} target={site.whatsapp ? '_blank' : undefined} rel={site.whatsapp ? 'noreferrer' : undefined}>Hubungi via WhatsApp</a></div><div className="hero-note"><span className="note-icon">✳</span><span>Budaya dan cerita lokal<br />di kawasan Giri</span></div></div><div className="hero-visual"><PlaceholderImage title="Foto pengrajin atau suasana Kampung Giri akan hadir" /><div className="hero-label"><strong>Warisan yang hidup</strong><span>Temukan cerita di setiap motif</span></div></div></div></section>
+    <section className="intro"><div className="wrap intro-grid"><div><span className="eyebrow">Lebih dari selembar kain</span><h2>Budaya yang bisa<br />kamu alami.</h2></div><div className="intro-copy"><p>Batik Giri mengajak pengunjung mengenal Gresik melalui motif dan pengalaman membatik. Berkunjung ke kawasan Giri memberi ruang untuk mengenal kerajinan lokal secara langsung—melihat proses, berjumpa dengan pengrajin, serta memahami cerita yang menyertai sebuah karya.</p><p>Datang bersama keluarga, teman, sekolah, atau komunitas. Detail sejarah, profil pengrajin, dan informasi kunjungan akan dilengkapi setelah dikonfirmasi bersama mitra.</p><Link href="/tentang/">Kenali lebih jauh →</Link></div></div></section>
+    <section className="section activities"><div className="wrap"><SectionTitle eyebrow="Wisata edukasi" title="Belajar budaya lewat<br />pengalaman langsung." description="Rangkaian kegiatan edukasi sedang disusun bersama mitra. Hubungi pengelola untuk menanyakan jadwal dan aktivitas yang tersedia." /><div className="activity-grid">{activities.slice(0,3).map((activity, index) => <article className="activity-card" key={activity.name}><PlaceholderImage title="Foto aktivitas Batik Giri akan hadir" /><div className="activity-card-body"><span className="card-kicker">Aktivitas 0{index + 1}</span><h3>{activity.name}</h3><p>{activity.description}</p></div></article>)}</div><div className="section-link"><Link className="btn btn-outline" href="/wisata-edukasi/">Lihat wisata edukasi →</Link></div></div></section>
+    <section className="section motifs-preview"><div className="wrap"><SectionTitle eyebrow="Cerita dalam motif" title="Kenali motif Batik Giri." description="Nama motif sudah tercatat; foto, filosofi, dan kisahnya akan ditambahkan setelah divalidasi bersama pengrajin." /><div className="motif-grid">{visibleMotifs.map(motif => <MotifCard motif={motif} key={motif.slug} />)}</div><div className="section-link"><Link className="btn btn-outline" href="/motif/">Jelajahi semua motif →</Link></div></div></section>
+    <section className="section packages"><div className="wrap"><SectionTitle eyebrow="Paket kunjungan" title="Pilih cara mengenal Giri." description="Harga, durasi, kapasitas, dan produk yang dibawa pulang dikonfirmasi langsung oleh pengelola." /><div className="package-grid">{packages.map((item, index) => <PackageCard item={item} featured={index === 1} key={item.slug} />)}</div><p className="section-note">Website ini tidak memproses pembayaran atau reservasi daring. Konfirmasi paket melalui WhatsApp.</p></div></section>
+    <section className="section"><div className="wrap"><SectionTitle eyebrow="Sepenggal suasana" title="Cerita dalam warna." description="Foto dan video resmi Batik Giri akan ditambahkan setelah materi dan izin publikasi tersedia." /><GalleryPreview /><div className="section-link"><Link className="btn btn-outline" href="/galeri/">Lihat semua galeri →</Link></div></div></section>
+    <section className="cta-panel"><div className="wrap cta-inner"><div><span className="eyebrow">Mulai percakapan</span><h2>Ada cerita yang ingin<br />kamu bawa pulang?</h2><p>Tanyakan paket wisata, kunjungan rombongan, atau produk Batik Giri.</p></div><div className="cta-actions"><a className="btn btn-wa" href={wa} target={site.whatsapp ? '_blank' : undefined} rel={site.whatsapp ? 'noreferrer' : undefined}>Hubungi via WhatsApp</a><small>{site.location}</small><Link href="/kontak/" className="footer-contact">Informasi lokasi & kontak →</Link></div></div></section>
+  </>
+}

@@ -1,0 +1,542 @@
+=====================================================================
+DESKRIPSI LENGKAP WEBSITE WISATA EDUKASI BATIK GIRI
+Dari pemilihan framework sampai rancangan tiap halaman
+Sumber: Content Requirement - Website.txt
+=====================================================================
+
+
+---------------------------------------------------------------------
+BAGIAN A. RINGKASAN KEPUTUSAN
+---------------------------------------------------------------------
+
+Jenis website     : Static website (tanpa backend, tanpa database, tanpa login)
+Framework         : Astro + Tailwind CSS (alternatif: Next.js static export)
+Struktur          : Hybrid. Home berupa landing page scroll panjang yang sudah
+                    berdiri sendiri, ditambah beberapa halaman pendukung.
+Konten            : Disimpan di file data (JSON/Markdown), dipisah dari tampilan
+Konversi          : Semua CTA mengarah ke WhatsApp (link wa.me dengan pesan otomatis)
+Hosting           : Platform static hosting (Cloudflare Pages / Netlify / Vercel)
+Prinsip desain    : Mobile-first, storytelling, heritage Giri-Gresik, ringan
+
+
+---------------------------------------------------------------------
+BAGIAN B. FRAMEWORK DAN TEKNOLOGI
+---------------------------------------------------------------------
+
+B1. Rekomendasi utama: Astro + Tailwind CSS
+
+Alasan:
+- Output berupa HTML statis yang sudah jadi (pre-rendered). Ini penting untuk
+  SEO dan preview link saat dibagikan di WhatsApp/Instagram (Open Graph).
+  Website React murni (SPA client-side) biasanya lemah di dua hal ini.
+- Hampir tidak mengirim JavaScript ke browser secara default, jadi cepat di
+  HP dan koneksi lambat (sebagian besar pengunjung diperkirakan lewat HP).
+- Cocok untuk website berbasis konten: halaman dibuat dari komponen, konten
+  diambil dari file data.
+- JavaScript hanya dimuat pada bagian yang membutuhkan interaksi (lightbox
+  galeri, menu mobile, tab). Komponen React/Vue masih bisa dipakai bila perlu.
+- Build menghasilkan folder statis yang bisa di-host gratis.
+- Mudah diserahterimakan: struktur folder sederhana, konten ada di satu folder.
+
+B2. Alternatif
+
+1) Next.js dengan static export (output: "export")
+   Pilih ini jika tim sudah nyaman dengan React dan ingin satu ekosistem.
+   Pastikan memakai static export atau SSG, bukan SPA murni.
+2) HTML + CSS + JavaScript biasa (Tailwind via CLI)
+   Paling sederhana, tetapi komponen dan data konten tidak terstruktur sehingga
+   sulit dirawat saat jumlah halaman bertambah (motif x9, paket x banyak).
+
+B3. Pendukung
+
+- Tailwind CSS            : styling cepat dan konsisten, mudah mobile-first
+- Font                    : Google Fonts (self-host lebih baik untuk performa)
+- Ikon                    : Lucide atau SVG inline
+- Galeri/lightbox         : library ringan (GLightbox / PhotoSwipe) atau buat sendiri
+- Gambar                  : format WebP/AVIF, ukuran responsif, lazy loading
+- Video                   : embed YouTube (lazy, dimuat saat diklik) agar tidak berat
+- Peta                    : tombol "Buka di Google Maps" + embed iframe lazy
+- Analytics (opsional)    : Plausible / Umami / Google Analytics sederhana
+- Version control         : repository Git (GitHub), kepemilikan didiskusikan dengan mitra
+
+B4. Struktur folder yang disarankan
+
+  /src
+    /components     Navbar, Footer, Hero, SectionTitle, MotifCard, PackageCard,
+                    FacilityCard, GalleryGrid, WhatsAppButton, BatikDivider
+    /layouts        BaseLayout (SEO meta, font, navbar, footer)
+    /pages          index, tentang, motif/index, motif/[slug], wisata-edukasi,
+                    paket/index, paket/[slug], fasilitas, galeri, kontak
+    /data           site.json, motif.json, paket.json, fasilitas.json,
+                    galeri.json, aktivitas.json
+    /assets         images/ (hero, motif, paket, galeri, fasilitas), icons/
+  /public           favicon, og-image, robots.txt, sitemap
+  README.md         cara ganti konten, cara build, cara deploy
+
+B5. Prinsip pemisahan konten dan tampilan
+
+Semua teks, harga, nomor WhatsApp, dan nama file foto diletakkan di /data.
+Komponen hanya membaca data tersebut. Dengan begitu, mengganti harga paket atau
+menambah motif cukup mengedit satu file data lalu build ulang, tanpa menyentuh
+kode tampilan. Ini penting untuk tahap serah terima ke mitra.
+
+Contoh data motif (motif.json):
+  {
+    "slug": "belimbing-wuluh",
+    "nama": "Belimbing Wuluh",
+    "fotoUtama": "motif/belimbing-wuluh-utama.webp",
+    "fotoDetail": ["motif/belimbing-wuluh-detail-1.webp"],
+    "sejarah": "...",
+    "filosofi": "...",
+    "inspirasi": "...",
+    "ciriKhas": "...",
+    "masihDibuat": true,
+    "status": "approved"
+  }
+
+Contoh data paket (paket.json):
+  {
+    "slug": "belajar-membatik-dasar",
+    "nama": "...",
+    "tagline": "...",
+    "deskripsi": "...",
+    "durasi": "...",
+    "harga": "...",
+    "minPeserta": 0,
+    "maxPeserta": 0,
+    "aktivitas": ["...", "..."],
+    "fasilitas": ["...", "..."],
+    "produkDibawaPulang": "Scarf batik / sajadah / kain batik",
+    "foto": ["paket/..."],
+    "pesanPesanWA": "Halo, saya tertarik dengan paket ..."
+  }
+
+B6. Link WhatsApp
+
+Format: https://wa.me/62XXXXXXXXXX?text=<pesan yang di-encode>
+Setiap paket memakai pesan otomatis berbeda, misalnya menyebut nama paket,
+supaya pengelola langsung tahu paket apa yang ditanyakan. Nomor ditulis dengan
+kode negara 62 tanpa angka 0 di depan dan tanpa tanda plus.
+
+B7. Hosting dan domain
+
+- Hasil build berupa folder statis, cukup di-upload ke Cloudflare Pages,
+  Netlify, Vercel, atau GitHub Pages.
+- HTTPS otomatis pada platform tersebut.
+- Domain: nama domain final, siapa pemegang akun, dan mekanisme perpanjangan
+  harus diputuskan bersama mitra (anggaran awal domain/hosting sudah tercakup
+  dalam RAB kegiatan).
+
+
+---------------------------------------------------------------------
+BAGIAN C. ARAH DESAIN VISUAL
+---------------------------------------------------------------------
+
+Catatan: palet, logo, dan tipografi final mengikuti Dokumen Branding Batik Giri
+(luaran kegiatan Abmas). Bagian ini adalah arah awal agar development bisa
+mulai tanpa menunggu.
+
+C1. Karakter
+
+Hangat, berbudaya, dan terasa seperti cerita, bukan seperti toko online.
+Pengunjung harus merasa sedang diajak mengenal kampung dan prosesnya.
+
+C2. Palet warna (usulan awal)
+
+- Krem / mori        : #F6EFE3  (latar utama, mengingatkan kain mori)
+- Cokelat soga       : #5A3A22  (teks judul, elemen utama; warna khas batik soga)
+- Indigo / biru tua  : #1F2E4D  (aksen, footer, bagian kontras)
+- Emas / kuning tua  : #C79A3B  (aksen kecil, garis, ikon)
+- Terakota           : #B5543A  (tombol sekunder, highlight)
+- Hijau WhatsApp     : #25D366  (khusus tombol WhatsApp agar langsung dikenali)
+
+Pastikan kontras teks terhadap latar minimal memenuhi standar keterbacaan.
+
+C3. Tipografi
+
+- Judul  : serif ekspresif (Playfair Display / Fraunces / Cormorant Garamond)
+- Isi    : sans-serif bersih (Plus Jakarta Sans / Inter / DM Sans)
+- Ukuran teks isi minimal 16px di mobile; jarak antar baris lega.
+
+C4. Ornamen batik
+
+- Gunakan pola batik sebagai pembatas antar section (divider) dan latar
+  sangat tipis (opacity rendah) agar tidak mengganggu keterbacaan.
+- Pola diambil dari motif Giri yang nyata (Gapura Padu Raksa, Belimbing Wuluh,
+  Kupat, dll) setelah ada aset resmi dari mitra / tim DKV. Jangan memakai pola
+  batik generik dari luar karena melemahkan klaim identitas Giri.
+- Bentuk lengkung gapura dapat dipakai sebagai bingkai foto hero atau kartu.
+
+C5. Fotografi
+
+- Foto asli (pengrajin, proses malam/canting, pewarnaan, kampung, gapura)
+  jauh lebih kuat daripada stok foto. Ini kunci kredibilitas.
+- Hero sebaiknya foto tangan pengrajin sedang mencanting atau suasana kampung.
+- Perlakuan konsisten: tone hangat, rasio gambar seragam per jenis kartu.
+
+C6. Komponen UI
+
+- Tombol utama   : "Hubungi via WhatsApp" (hijau), tombol sekunder
+                   "Lihat Paket Wisata" (terakota/outline)
+- Kartu          : sudut membulat sedang, bayangan lembut, foto di atas
+- Floating WA    : tombol WhatsApp melayang di pojok kanan bawah (mobile)
+- Badge          : label kecil seperti "Termasuk scarf batik", "Walking tour"
+- Navbar         : sticky, logo kiri, menu kanan, hamburger di mobile
+
+C7. Gerak dan interaksi
+
+Sederhana: fade-in saat scroll, hover pada kartu, lightbox pada galeri.
+Hindari animasi berat. Hormati pengaturan "reduce motion".
+
+
+---------------------------------------------------------------------
+BAGIAN D. NAVIGASI DAN SITEMAP
+---------------------------------------------------------------------
+
+Menu utama (urutan):
+  Beranda | Tentang | Motif Batik | Wisata Edukasi | Paket | Fasilitas | Galeri | Kontak
+  + tombol WhatsApp di kanan atas
+
+Daftar halaman:
+  /                    Beranda (landing page)
+  /tentang             Profil, sejarah, Batik Giri dan identitas Gresik
+  /motif               Daftar motif
+  /motif/[slug]        Detail motif (satu halaman per motif)
+  /wisata-edukasi      Konsep, aktivitas, pengalaman membatik, walking tour
+  /paket               Daftar paket
+  /paket/[slug]        Detail paket
+  /fasilitas           Daftar fasilitas
+  /galeri              Foto dan video
+  /kontak              Lokasi, akses, kontak, mekanisme pemesanan
+
+Catatan: untuk luaran HKI yang berbentuk landing page, halaman Beranda harus
+memuat ringkasan semua bagian penting sehingga bisa berdiri sendiri.
+
+
+---------------------------------------------------------------------
+BAGIAN E. RANCANGAN PER HALAMAN
+---------------------------------------------------------------------
+
+E0. Elemen global
+
+NAVBAR
+  Logo Batik Giri, menu, tombol WhatsApp. Sticky saat scroll.
+
+FOOTER
+  - Logo dan satu kalimat tentang Batik Giri
+  - Menu singkat
+  - Alamat, nomor WhatsApp, Instagram/media sosial
+  - Kredit: Abmas ITS, tim pelaksana, mitra
+  - Blok warna indigo dengan pembatas pola batik di bagian atas
+
+FLOATING WHATSAPP
+  Tombol melayang di mobile pada semua halaman.
+
+
+E1. BERANDA (/)
+
+Urutan section dari atas ke bawah:
+
+1) HERO
+   Tampilan  : foto/video penuh layar (tinggi sekitar 80-100% layar), overlay
+               gelap tipis agar teks terbaca, bingkai lengkung gapura opsional.
+   Isi       : Headline, subheadline, dua tombol (Lihat Paket Wisata, Hubungi
+               via WhatsApp), indikator scroll kecil.
+   Tujuan    : kesan pertama, langsung menyatakan "wisata edukasi batik di Giri".
+   Konten    : headline [isi], subheadline [isi], foto/video hero.
+
+2) PENGENALAN SINGKAT
+   Tampilan  : dua kolom di desktop (foto kiri, teks kanan), satu kolom di mobile.
+   Isi       : judul, paragraf ringkas 100-150 kata, tautan "Kenali lebih jauh"
+               ke /tentang. Satu atau dua foto pendukung.
+   Tambahan  : tiga angka/fakta singkat jika tersedia (tahun berdiri, jumlah
+               pengrajin, jumlah motif). Hanya pakai data yang sudah dikonfirmasi.
+
+3) HIGHLIGHT WISATA EDUKASI
+   Tampilan  : tiga kartu sejajar (satu kolom di mobile), tiap kartu punya foto,
+               judul aktivitas, deskripsi singkat.
+   Isi       : misalnya Belajar Membatik, Walking Tour, Pewarnaan (sesuai hasil
+               perancangan). Tautan "Lihat selengkapnya" ke /wisata-edukasi.
+
+4) HIGHLIGHT MOTIF (disarankan ditambahkan)
+   Tampilan  : carousel/strip horizontal berisi kartu motif (foto, nama).
+   Isi       : cuplikan dari 9 motif, tautan ke /motif.
+   Alasan    : motif adalah pembeda utama Batik Giri; perlu tampil di beranda
+               agar cerita budaya terasa sejak awal.
+
+5) HIGHLIGHT PAKET WISATA
+   Tampilan  : 2-3 kartu paket (foto, nama, tagline, durasi, harga mulai dari,
+               badge produk batik yang dibawa pulang), tombol "Lihat Detail"
+               dan "Pesan via WhatsApp".
+   Isi       : diambil dari paket.json.
+
+6) GALERI
+   Tampilan  : grid/masonry 6-8 foto, klik membuka lightbox, tautan "Lihat
+               semua galeri".
+
+7) CTA PENUTUP / KONTAK
+   Tampilan  : blok warna indigo atau soga dengan pola batik tipis.
+   Isi       : kalimat ajakan, tombol WhatsApp besar, alamat ringkas, tautan
+               Instagram.
+
+
+E2. TENTANG (/tentang)
+
+Struktur halaman:
+1) Header halaman : judul "Tentang Batik Giri", foto banner.
+2) Profil         : kartu informasi (Nama, Lokasi, Tahun berdiri, Pengelola/
+                    Pengrajin) di samping foto kelompok pengrajin.
+3) Sejarah        : bentuk timeline vertikal atau teks bersegmen dengan foto
+                    pendukung. Isi dari narasi sejarah yang sudah divalidasi.
+4) Batik Giri dan Identitas Gresik
+                  : bagian cerita yang menghubungkan batik dengan kawasan Giri
+                    (situs sejarah, wisata religi, budaya lokal). Visual
+                    pendukung berupa foto kawasan.
+5) Pengrajin      : kartu profil singkat tiap pengrajin (foto, nama, peran),
+                    hanya bila pengrajin bersedia ditampilkan.
+6) CTA            : ajakan melihat motif atau paket.
+
+Catatan: seluruh narasi sejarah dan budaya wajib melalui validasi mitra
+(prinsip heritage authenticity).
+
+
+E3. MOTIF BATIK
+
+Daftar motif (/motif)
+  Header    : judul dan kalimat pengantar.
+  Isi       : grid kartu motif (3 kolom desktop, 2 kolom tablet, 1-2 kolom
+              mobile). Tiap kartu: foto motif, nama, deskripsi satu kalimat.
+  Motif yang tercatat:
+    1. Belimbing Wuluh
+    2. Kupat
+    3. Situs Giri Kedaton
+    4. Keris
+    5. Gerabah
+    6. Tugu Lontar
+    7. Dokar (Andong)
+    8. Gapura (Padu Raksa)
+    9. Bedug
+    + Kendeng Urdu (Kenong Bandeng Urang Windu) [OPSIONAL]
+  Fitur     : filter/penanda "Masih dibuat" bila datanya tersedia.
+
+Detail motif (/motif/[slug])
+  Header    : nama motif dan foto utama besar.
+  Isi       : ciri khas, sejarah, filosofi/makna, inspirasi motif, hubungan
+              dengan kawasan Giri, foto detail (galeri kecil), informasi
+              tambahan.
+  Navigasi  : tombol "Motif sebelumnya / berikutnya".
+  CTA       : "Tanya motif ini via WhatsApp" dengan pesan otomatis menyebut
+              nama motif.
+
+Pertanyaan yang harus terjawab per motif (dari hasil FGD):
+  1. Apa inspirasi motifnya?
+  2. Apa hubungan motif dengan kawasan Giri?
+  3. Cerita/narasi/makna yang selama ini dikenal masyarakat?
+  4. Apakah motif masih dibuat hingga saat ini?
+
+Aturan konten: motif yang narasinya belum divalidasi tetap boleh tampil
+dengan foto dan nama, tetapi bagian sejarah/filosofi ditampilkan sebagai
+"Segera hadir", bukan diisi dugaan.
+
+
+E4. WISATA EDUKASI (/wisata-edukasi)
+
+Struktur halaman:
+1) Header           : judul dan foto aktivitas.
+2) Gambaran         : konsep wisata edukasi Batik Giri dalam 1-2 paragraf.
+3) Aktivitas wisata : daftar aktivitas dalam kartu atau zig-zag (foto kiri-
+                      kanan bergantian). Tiap aktivitas: nama, deskripsi,
+                      durasi, foto.
+4) Pengalaman membatik
+                    : penjelasan langkah proses (misalnya ragam tahap dari
+                      menyiapkan kain sampai hasil jadi) dalam bentuk step
+                      bernomor dengan foto kecil. Sesuaikan dengan proses yang
+                      benar-benar diajarkan di Giri.
+5) Alur / rute kegiatan (walking tour)
+                    : timeline horizontal (desktop) atau vertikal (mobile)
+                      berisi titik singgah, estimasi waktu, dan keterangan.
+                      Dapat dilengkapi peta ilustratif sederhana. Titik-titik
+                      di kawasan Giri (misalnya situs sejarah, sendang,
+                      pasar) hanya dimasukkan bila sudah disepakati dalam
+                      rancangan paket.
+6) CTA              : tombol ke daftar paket dan WhatsApp.
+
+Catatan: wisata edukasi masih dalam tahap perancangan bersama mitra, jadi
+komponen halaman ini harus mudah diubah lewat data (aktivitas.json).
+
+
+E5. PAKET WISATA
+
+Daftar paket (/paket)
+  Header    : judul dan penjelasan singkat cara memesan.
+  Isi       : kartu paket (foto, nama, tagline, durasi, kisaran peserta, harga,
+              badge produk batik yang diperoleh).
+  Tambahan  : bagian "Cara Memesan" tiga langkah (Pilih paket - Chat
+              WhatsApp - Konfirmasi jadwal).
+
+Detail paket (/paket/[slug])
+  Bagian atas : galeri foto paket, nama, tagline, harga, durasi, jumlah
+                peserta minimum-maksimum.
+  Deskripsi   : penjelasan paket.
+  Aktivitas   : daftar bernomor urutan kegiatan.
+  Fasilitas / yang didapat
+              : daftar dengan ikon centang. Sertakan produk batik yang dibawa
+                pulang (contoh: scarf, sajadah, kain batik) sebagai highlight
+                tersendiri dengan foto produk.
+  Informasi pemesanan
+              : kotak ringkasan di samping (sticky di desktop) berisi harga
+                dan tombol "Pesan via WhatsApp" dengan pesan otomatis nama
+                paket. Di mobile berupa bilah tombol tetap di bawah layar.
+  Catatan     : jelaskan bahwa pemesanan dikonfirmasi lewat WhatsApp, tidak ada
+                pembayaran online di website.
+
+
+E6. FASILITAS (/fasilitas)
+
+  Header    : judul dan kalimat pengantar.
+  Isi       : grid kartu fasilitas (ikon/foto, nama, deskripsi).
+  Kandidat  : area membatik, area workshop, toilet, mushola, area parkir,
+              ruang tunggu, fasilitas lain.
+  Aturan    : tampilkan hanya fasilitas yang benar-benar ada. Jika parkir
+              terbatas, sampaikan jujur dan beri saran akses (misalnya
+              parkir di titik tertentu lalu berjalan kaki). Kejujuran lebih
+              baik bagi pengalaman pengunjung.
+
+
+E7. GALERI (/galeri)
+
+  Header    : judul dan filter kategori.
+  Filter    : Lokasi | Pengrajin | Aktivitas Membatik | Produk/Motif | Pengunjung
+  Foto      : grid masonry, lazy load, klik membuka lightbox (geser, tombol
+              tutup, keterangan foto).
+  Video     : bagian terpisah di atas atau bawah; tiap video punya poster
+              (thumbnail), judul, deskripsi, dan link YouTube. Video dimuat
+              hanya saat diklik agar halaman tetap ringan.
+  Catatan   : setiap foto perlu alt text dan keterangan (siapa/apa/di mana).
+              Pastikan izin publikasi untuk foto yang memuat wajah orang.
+
+
+E8. LOKASI DAN KONTAK (/kontak)
+
+Struktur halaman:
+1) Header           : judul "Kunjungi Kami".
+2) Lokasi
+   - Nama lokasi, alamat lengkap
+   - Peta (embed Google Maps, dimuat lazy) dan tombol "Buka di Google Maps"
+   - Informasi akses: cara menuju lokasi, kendaraan yang disarankan
+   - Landmark terdekat
+   - Foto lokasi (tampak depan/jalan masuk) agar mudah dikenali
+3) Kontak pengelola
+   - Nama pengelola, nomor WhatsApp, Instagram, media sosial lain
+   - Jam operasional (jika sudah dikonfirmasi)
+4) Mekanisme pemesanan
+   - Penjelasan: website tidak menyediakan pemesanan online; hubungi lewat
+     WhatsApp untuk pemesanan produk batik, informasi paket, reservasi
+     kunjungan, dan pertanyaan lain.
+   - Tombol besar "Hubungi via WhatsApp".
+
+
+---------------------------------------------------------------------
+BAGIAN F. ALUR PENGGUNA (USER FLOW)
+---------------------------------------------------------------------
+
+Calon pengunjung wisata:
+  Beranda > Highlight wisata edukasi > Paket > Detail paket > WhatsApp
+
+Calon konsumen batik:
+  Beranda > Motif > Detail motif > WhatsApp (tanya produk)
+
+Wisatawan kawasan Giri (ziarah/sejarah):
+  Scan QR / cari di Google > Beranda > Tentang (hubungan dengan Giri) >
+  Wisata edukasi > Paket > WhatsApp
+
+Saran: sediakan QR code yang mengarah ke website untuk dicetak pada poster
+dan materi promosi di titik kunjungan kawasan Giri.
+
+
+---------------------------------------------------------------------
+BAGIAN G. SEO, PERFORMA, AKSESIBILITAS
+---------------------------------------------------------------------
+
+SEO
+- Setiap halaman punya title dan meta description unik.
+- Struktur heading rapi (satu H1 per halaman).
+- URL deskriptif (/motif/belimbing-wuluh).
+- Open Graph dan Twitter card dengan gambar preview (og-image) agar link
+  tampil menarik saat dibagikan di WhatsApp/Instagram.
+- Sitemap.xml dan robots.txt.
+- Structured data (schema.org: LocalBusiness / TouristAttraction) pada
+  halaman kontak/beranda (opsional).
+- Alt text pada semua gambar.
+
+Performa
+- Gambar WebP/AVIF, ukuran responsif, lazy loading.
+- Hindari video autoplay berukuran besar; gunakan poster dan muat saat klik.
+- Font di-self-host atau dibatasi 2 keluarga.
+- Target: halaman beranda dimuat cepat di jaringan 4G biasa.
+
+Aksesibilitas
+- Kontras teks memadai, ukuran teks nyaman dibaca.
+- Navigasi bisa dipakai dengan keyboard.
+- Label jelas pada tombol dan tautan.
+- Bahasa sederhana, hindari istilah teknis tanpa penjelasan.
+
+Keamanan dan privasi
+- HTTPS, tidak ada pengumpulan data pribadi di website.
+- Nomor kontak dan foto orang hanya yang sudah disetujui untuk publikasi.
+
+
+---------------------------------------------------------------------
+BAGIAN H. STATUS KONTEN DAN FALLBACK
+---------------------------------------------------------------------
+
+Karena sebagian konten belum final (paket wisata, narasi motif, foto),
+rancang komponen agar tidak rusak saat data kosong:
+
+- Setiap item data punya field status: draft | review | approved.
+- Item berstatus belum approved boleh disembunyikan di build produksi atau
+  menampilkan "Segera hadir".
+- Foto belum tersedia diganti placeholder netral (pola batik), bukan stok
+  foto yang tidak relevan.
+- Harga dan nomor WhatsApp hanya tampil bila sudah dikonfirmasi mitra.
+
+
+---------------------------------------------------------------------
+BAGIAN I. URUTAN PENGERJAAN YANG DISARANKAN
+---------------------------------------------------------------------
+
+1. Setup proyek (Astro, Tailwind, layout dasar, navbar, footer, tema warna)
+2. Komponen dasar (tombol, kartu, section title, divider batik, tombol WA)
+3. Beranda dengan data dummy (urutan 7 section)
+4. Halaman motif (daftar + detail dinamis dari data)
+5. Halaman paket (daftar + detail dinamis)
+6. Halaman wisata edukasi, tentang, fasilitas
+7. Galeri (filter + lightbox + video)
+8. Halaman kontak (peta, WhatsApp, mekanisme pemesanan)
+9. SEO, Open Graph, optimasi gambar, aksesibilitas
+10. Masukkan konten final yang sudah approved
+11. Uji di HP dan desktop, uji semua link (WhatsApp, Maps, media sosial)
+12. Deploy, pasang domain, dokumentasi serah terima (README + panduan
+    mengganti konten)
+
+Tip: kerjakan dengan data dummy dulu supaya pengembangan tidak menunggu
+konten final, lalu tukar isi file data saat konten sudah disetujui.
+
+
+---------------------------------------------------------------------
+BAGIAN J. HAL YANG MASIH PERLU DIKONFIRMASI
+---------------------------------------------------------------------
+
+- Nomor WhatsApp resmi pengelola dan akun media sosial resmi
+- Paket wisata final: nama, durasi, harga, kapasitas, produk yang dibawa pulang
+- Rute walking tour: titik singgah dan durasi
+- Narasi sejarah dan filosofi tiap motif, serta apakah motif masih diproduksi
+- Daftar fasilitas aktual di lokasi
+- Foto dan video resmi beserta izin publikasi
+- Logo, palet warna, dan tipografi final dari Dokumen Branding
+- Nama domain, penyedia hosting, pemegang akun, dan PIC pemeliharaan
+- Apakah halaman profil pengrajin boleh menampilkan foto dan nama
+
+=====================================================================
+AKHIR DOKUMEN
+=====================================================================

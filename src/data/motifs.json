@@ -1,0 +1,12 @@
+[
+ {"slug":"belimbing-wuluh","name":"Belimbing Wuluh","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"kupat","name":"Kupat","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"situs-giri-kedaton","name":"Situs Giri Kedaton","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"keris","name":"Keris","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"gerabah","name":"Gerabah","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"tugu-lontar","name":"Tugu Lontar","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"dokar-andong","name":"Dokar (Andong)","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"gapura-padu-raksa","name":"Gapura (Padu Raksa)","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"bedug","name":"Bedug","status":"review","description":"Cerita dan filosofi motif akan hadir setelah divalidasi bersama pengrajin."},
+ {"slug":"kendeng-urdu","name":"Kendeng Urdu (Kenong Bandeng Urang Windu)","status":"draft","optional":true,"description":"Motif opsional; detail menunggu konfirmasi mitra."}
+]

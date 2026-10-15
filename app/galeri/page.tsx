@@ -1,0 +1,5 @@
+import type { Metadata } from 'next'
+import SectionTitle from '@/components/SectionTitle'
+import GalleryClient from '@/components/GalleryClient'
+export const metadata: Metadata = { title: 'Galeri Batik Giri', description: 'Galeri lokasi, pengrajin, aktivitas membatik, produk, dan pengunjung wisata edukasi Batik Giri.' }
+export default function GalleryPage() { return <><header className="page-hero"><div className="wrap"><span className="eyebrow">Cerita dalam gambar</span><h1>Galeri Batik Giri</h1><p>Foto dan video resmi akan ditampilkan setelah materi tersedia dan izin publikasinya dikonfirmasi.</p></div></header><section className="page-body"><div className="wrap"><SectionTitle eyebrow="Foto" title="Sepenggal suasana Giri." description="Filter galeri berdasarkan kategori. Foto wajah hanya diterbitkan setelah izin publikasi disetujui." /><GalleryClient /><div className="empty-note" style={{ marginTop: 28 }}><strong>Video Batik Giri</strong><p style={{ margin: '5px 0 0' }}>Video belum tersedia. Tautan dan thumbnail akan ditambahkan setelah materi resmi diterima. Video akan dimuat hanya setelah dipilih.</p></div></div></section></> }
