@@ -1,21 +1,52 @@
-﻿# Batik Giri — Next.js + TypeScript
+﻿# Batik Giri
 
-Static multi-page site for the Batik Giri educational tourism program, built with Next.js App Router and TypeScript. `next build` exports the site to `out/` for static hosting.
+Batik Giri adalah website informasi wisata edukasi batik di Gresik. Temukan informasi tentang motif batik, kegiatan, dan pilihan paket wisata.
 
-## Run locally
+## Tentang Website
 
-1. Install Node.js 20.9 or newer.
-2. Run `npm install`.
-3. Run `npm run dev` and open the local URL shown in the terminal.
+Website ini membantu masyarakat dan wisatawan mengenal batik Giri serta merencanakan kunjungan wisata edukasi.
 
-## Build static site
+Informasi yang tersedia meliputi:
 
-Run `npm run build`. Upload the generated `out/` directory to Cloudflare Pages, Netlify, Vercel, or another static host.
+- Motif batik dan keterangannya
+- Kegiatan wisata edukasi
+- Pilihan paket wisata
+- Informasi umum tentang Batik Giri
 
-## Content updates
+Informasi jadwal, harga, dan ketersediaan kegiatan dapat berubah. Hubungi pengelola Batik Giri untuk memastikan informasi terbaru sebelum berkunjung.
 
-Site contact and map settings are in `src/data/site.json`. Add the official WhatsApp number in international format without a leading plus (format: 62XXXXXXXXXX). Keep it empty until approved; WhatsApp buttons then lead to the contact page.
+## Teknologi
 
-Motifs, packages, activities, facilities, and gallery labels live in their corresponding JSON files under `src/data/`. Update those files instead of editing page components. Keep unverified culture content marked for review. Motif stories currently display “Segera hadir” until confirmed. Photos use a neutral CSS placeholder until approved local images and publication permissions are available.
+Website ini dibuat menggunakan:
 
-Before publishing, replace `batikgiri.example` in `app/layout.tsx`, `public/robots.txt`, and `public/sitemap.xml` with the final domain. Add official social links, image assets, operating information, and partner-approved credits.
+- [Next.js](https://nextjs.org/)
+- [React](https://react.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+
+## Menjalankan Secara Lokal
+
+Pastikan [Node.js](https://nodejs.org/) dan npm sudah terpasang. Dari terminal, jalankan:
+
+```bash
+git clone https://github.com/zetfizet/batik-giri.git
+cd batik-giri
+npm install
+npm run dev
+```
+
+Kemudian buka [http://localhost:3000](http://localhost:3000) di browser.
+
+## Mengelola Konten
+
+Data motif, paket wisata, kegiatan, dan informasi situs berada di folder `src/data`. Perbarui berkas JSON yang sesuai untuk mengubah konten pada website.
+
+Sebelum memperbarui informasi seperti deskripsi, jadwal, harga, atau kontak, pastikan datanya sudah dikonfirmasi kepada pengelola.
+
+## Kontribusi
+
+Saran dan laporan masalah dapat disampaikan melalui **Issues** di repositori ini. Untuk mengajukan perubahan, buat pull request dan sertakan ringkasan singkat.
+
+## Penggunaan Kode dan Aset
+
+Sebelum menggunakan kembali kode, foto, ilustrasi, atau materi lain dari proyek ini, periksa lisensi yang berlaku atau hubungi pemilik proyek.
