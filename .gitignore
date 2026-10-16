@@ -6,3 +6,4 @@ dist/
 *.tsbuildinfo
 .env*
 .vercel
+docs/prv/
