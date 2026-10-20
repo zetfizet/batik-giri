@@ -141,23 +141,38 @@ C1. Karakter
 Hangat, berbudaya, dan terasa seperti cerita, bukan seperti toko online.
 Pengunjung harus merasa sedang diajak mengenal kampung dan prosesnya.
 
-C2. Palet warna (usulan awal)
+C2. Palet warna
 
-- Krem / mori        : #F6EFE3  (latar utama, mengingatkan kain mori)
-- Cokelat soga       : #5A3A22  (teks judul, elemen utama; warna khas batik soga)
-- Indigo / biru tua  : #1F2E4D  (aksen, footer, bagian kontras)
-- Emas / kuning tua  : #C79A3B  (aksen kecil, garis, ikon)
-- Terakota           : #B5543A  (tombol sekunder, highlight)
-- Hijau WhatsApp     : #25D366  (khusus tombol WhatsApp agar langsung dikenali)
+Gunakan palet branding berikut secara konsisten pada seluruh halaman:
 
-Pastikan kontras teks terhadap latar minimal memenuhi standar keterbacaan.
+- Maroon       : #5C2826
+- Terracotta   : #A35432
+- Olive        : #524B32
+- Biru tua     : #244059
+- Krem         : #EDE1BE
+- Cokelat      : #322013
+- Emas         : #B8A055
+- Caramel      : #C5975C
+
+Pasangan warna:
+- Maroon dan krem        : #5C2826 dengan #EDE1BE
+- Terracotta dan cokelat : #A35432 dengan #322013
+- Olive dan emas         : #524B32 dengan #B8A055
+- Biru tua dan caramel   : #244059 dengan #C5975C
+
+Warna tersier:
+- Hitam  : #000000
+- Abu-abu: #B0B0B0
+- Putih  : #FFFFFF
+
+Pastikan kontras teks terhadap latar tetap nyaman dibaca. Nilai #244059 digunakan sebagai biru tua sesuai kode warnanya.
 
 C3. Tipografi
 
-- Judul  : serif ekspresif (Playfair Display / Fraunces / Cormorant Garamond)
-- Isi    : sans-serif bersih (Plus Jakarta Sans / Inter / DM Sans)
-- Ukuran teks isi minimal 16px di mobile; jarak antar baris lega.
-
+- Wordmark “Batik Giri” di navbar serta judul halaman dan bagian: Simply Serif.
+- Teks isi, navigasi, label, dan tombol: Inknut Antiqua.
+- Gunakan ukuran teks isi minimal 16px pada layar mobile dan jarak antarbaris yang lega.
+- Simply Serif perlu disertakan sebagai font lokal agar tampil konsisten untuk semua pengunjung.
 C4. Ornamen batik
 
 - Gunakan pola batik sebagai pembatas antar section (divider) dan latar
